@@ -26,15 +26,23 @@ def TimedCommand(char):
         usage_start = resource.getrusage(resource.RUSAGE_CHILDREN)
         time_start = time.time()
 
-        # out = sp.run(f"./fake {pw}{char}{end_char}", shell=True, stdout=sp.DEVNULL, stderr=sp.STDOUT).stdout
-        sp.run(f"/problems/febe26826d97b496639a3bca0d5e8a05/kronos {pw}{char}{end_char}", shell=True, stdout=sp.DEVNULL, stderr=sp.STDOUT).stdout
-        # print(out)
+        # out = sp.check_output(f"./fake {pw}{char}", shell=True, stderr=sp.STDOUT).decode()
+        out = sp.check_output(f"/problems/febe26826d97b496639a3bca0d5e8a05/kronos {pw}{char}", shell=True, stderr=sp.STDOUT).decode()
 
         usage_end = resource.getrusage(resource.RUSAGE_CHILDREN)
         time_end = time.time()
 
         cpu_time = usage_end.ru_stime - usage_start.ru_stime # use system time, not ru_utime user mode
         duration = time_end - time_start
+
+        try:
+            state = out.splitlines()[1]
+            if (state != "fail"):
+                print(f"Cracked Password: {pw}{char}")
+                return (f"{pw}{char}", duration)
+        except:
+            pass
+
         agg.append(duration)
     avg = sum(agg) / len(agg)
     print(f"{char}: {avg}")
