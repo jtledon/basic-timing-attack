@@ -3,6 +3,9 @@
 # Command to get it to the hackcenter server
 #     scp -i ~/.ssh/hack ./timing_attack.py jledon@shell-hackcenter.dbrumley.com:timing.py
 
+# solution for shell-hackcenter.dbrumley.com - /problems/febe26826d97b496639a3bca0d5e8a05/kronos:
+#     EDSYZRZIUO
+
 import string, math
 import time, resource
 import argparse, re
